@@ -170,4 +170,13 @@ class OrderedRecursiveGraphReducerTests: XCTestCase {
     func createGraph(projects: [Project] = []) -> Graph {
         return Graph(projects: projects)
     }
+
+    static var allTests = [
+        ("test_reduce_projectReducer", test_reduce_projectReducer),
+        ("test_reduce_targetReducer", test_reduce_targetReducer),
+        ("test_reduce_projectAndTargetReducer", test_reduce_projectAndTargetReducer),
+        ("test_reduce_addTargetBeforeRename", test_reduce_addTargetBeforeRename),
+        ("test_reduce_renameBeforeAddingTargets", test_reduce_renameBeforeAddingTargets)   
+    ]
+
 }

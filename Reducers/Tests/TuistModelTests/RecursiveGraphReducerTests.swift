@@ -145,4 +145,12 @@ class RecursiveGraphReducerTests: XCTestCase {
     func createGraph(projects: [Project] = []) -> Graph {
         return Graph(projects: projects)
     }
+
+        static var allTests = [
+            ("test_reduce_projectReducer", test_reduce_projectReducer),
+            ("test_reduce_targetReducer", test_reduce_targetReducer),
+            ("test_reduce_projectAndTargetReducer", test_reduce_projectAndTargetReducer),
+            ("test_reduce_reducerOrderDoesNotMatter", test_reduce_reducerOrderDoesNotMatter),
+    ]
+
 }
