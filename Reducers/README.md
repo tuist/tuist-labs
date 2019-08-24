@@ -60,7 +60,7 @@ Reducers:
 - [ ] Derived files (e.g. InfoPlist, Resources - side effect of generating a files + updating model)
 - [ ] Control reducers via tuist config 
    - Each reducer could consult the tuist config at the appropriate path
-   - Or selectively register reduces based on one tuist config
+   - Or selectively register reducers based on one tuist config
 
 Linters:
 - [ ] Existing `TuistGenerator` linters
