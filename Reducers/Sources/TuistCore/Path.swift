@@ -1,5 +1,17 @@
 
 // Note: This is a temporary placeholder of `Basic.AbsolutePath` from SwiftPM 
-// for demo purposes 
+// for demo purposes
 
-public typealias AbsolutePath = String
+public struct AbsolutePath: Equatable, Hashable {
+    public init() {
+        
+    }
+    public var isRoot: Bool {
+        // stub
+        return true
+    }
+    public var parentDirectory: AbsolutePath {
+        // stub
+        return AbsolutePath()
+    }
+}

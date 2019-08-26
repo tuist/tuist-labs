@@ -3,12 +3,15 @@ import TuistCore
 // MARK: - 
 
 public struct Project: Equatable {
+    public var path: AbsolutePath
     public var name: String
     public var targets: [Target]
     // ...
     
-    public init(name: String,
+    public init(path: AbsolutePath = AbsolutePath(),
+                name: String,
                 targets: [Target] = []) {
+        self.path = path
         self.name = name
         self.targets = targets
     }
