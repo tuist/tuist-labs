@@ -2,7 +2,7 @@
 
 # Tuist Design Demo
 
-This is demo package that demos some early concepts we’ve been discussing for the design of Tuist.
+This is a demo package that illustrates some early concepts we’ve been discussing for the design of Tuist.
 
 # Concepts
 
@@ -57,7 +57,8 @@ Reducers:
 - [x] Add custom build phases
 - [x] Add custom targets
 - [x] Add custom projects
-- [ ] Derived files (e.g. InfoPlist, Resources - side effect of generating a files + updating model)
+- [ ] Derived files - Stable / Known files (e.g. InfoPlist - side effect of generating a files + updating model) 
+- [ ] Derived files - Unstable / Unknown files (e.g. Resources - side effect of generating a files + updating model)
 - [ ] Control reducers via tuist config 
    - Each reducer could consult the tuist config at the appropriate path
    - Or selectively register reducers based on one tuist config
