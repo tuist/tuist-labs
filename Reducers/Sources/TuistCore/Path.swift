@@ -6,6 +6,11 @@ public struct AbsolutePath: Equatable, Hashable {
     public init() {
         
     }
+    
+    public init(_ stringPath: String) {
+        // ...
+    }
+    
     public var isRoot: Bool {
         // stub
         return true

@@ -53,6 +53,7 @@ class Demo {
         reducer.register(reducer: SwiftLintReducer())
         reducer.register(reducer: ManifestTargetReducer())
         reducer.register(reducer: ManifestProjectReducer())
+        reducer.register(reducer: GeneratedSourcesReducer())
         // ...
         
         return reducer

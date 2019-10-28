@@ -57,7 +57,7 @@ Reducers:
 - [x] Add custom build phases
 - [x] Add custom targets
 - [x] Add custom projects
-- [ ] Derived files - Stable / Known files (e.g. InfoPlist - side effect of generating a files + updating model) 
+- [x] Derived files - Stable / Known files (e.g. InfoPlist - side effect of generating a files + updating model) 
 - [ ] Derived files - Unstable / Unknown files (e.g. Resources - side effect of generating a files + updating model)
 - [ ] Control reducers via tuist config 
    - Each reducer could consult the tuist config at the appropriate path
