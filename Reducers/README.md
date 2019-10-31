@@ -15,6 +15,7 @@ This worked for a little while however the nature of the solution adopted didn't
 # Issues 
 
 - The responsibilities of `TuistKit` vs `TuistGenerator` were a bit blurry
+  - What goes where?
   - `TuistKit` didn't have knowledge of the dependency graph - as such was unable to apply all the rules in needed to apply
   - As a result `TuistGenerator` was doing more work than simply creating Xcode projects
       - e.g. External calls are made to other systems (e.g. `pod update`, `xcodebuild -resolvePackageDependencies`, etc...) causing side effects.
