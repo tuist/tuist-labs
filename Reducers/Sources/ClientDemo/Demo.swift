@@ -1,6 +1,7 @@
 import TuistCore
 import TuistModels
 import TuistGenerator
+import ProjectDescription
 
 class Demo {
     private let generator: Generating
@@ -18,20 +19,24 @@ class Demo {
     func generateProject(at path: AbsolutePath) throws {
         
         // Load models
-        let graph = loadGraph(at: path)
+        let models = loadModels(at: path)
 
         // Lint graph
         let linter = createLinter()
-        let lintIssues = linter.lint(model: graph)
+        let lintIssues = linter.lint(model: models.graph)
         display(lintIssues: lintIssues)
 
         // Update graph
-        let reucer = createGraphReducer()
-        let updatedGraph = reucer.reduce(model: graph)
+        let reucer = createGraphReducer(from: models)
+        let updatedGraph = reucer.reduce(model: models.graph)
 
-        // Generate
+        // Generate XcodeProj
         let project = try generator.generateProject(graph: updatedGraph)
 
+        // Other Side effects
+        let infoPlistGenerator = InfoPlistGenerator(targets: infoPlistTargets(from: models))
+        infoPlistGenerator.generate()
+        
         // Write to disk
         try write(project: project, path: path)
     }
@@ -46,7 +51,7 @@ class Demo {
         return linter
     }
     
-    private func createGraphReducer() -> GraphReducer {
+    private func createGraphReducer(from models: Models) -> GraphReducer {
         let reducer = OrderedRecursiveGraphReducer()
         
         // Order matters
@@ -54,17 +59,28 @@ class Demo {
         reducer.register(reducer: ManifestTargetReducer())
         reducer.register(reducer: ManifestProjectReducer())
         reducer.register(reducer: GeneratedSourcesReducer())
+        reducer.register(reducer: InfoPlistReducer(targets: infoPlistTargets(from: models)))
         // ...
         
         return reducer
     }
     
-    private func loadGraph(at path: AbsolutePath) -> Graph {
+    private func infoPlistTargets(from models: Models) -> [InfoPlistGenerator.TargetIdentifier] {
+        let infoPlistTargets = Array(models.manifests).flatMap { (arg) -> [InfoPlistGenerator.TargetIdentifier] in
+            let (path, manifest) = arg
+            let targets = manifest.targets.filter { $0.infoPlist == .default }
+            let temp = targets.map { InfoPlistGenerator.TargetIdentifier(path: path, target: $0.name) }
+            return temp
+        }
+        return infoPlistTargets
+    }
+    
+    private func loadModels(at path: AbsolutePath) -> Models {
         // Manifest > Graph + Models
         //
         // Transforms from `ProjectDescription` > `TuistModel`
         // ...
-        return Graph()
+        return Models(graph: Graph(), manifests: [:])
     }
     
     private func display(lintIssues: [LintingIssue]) {
@@ -76,4 +92,11 @@ class Demo {
     }
 }
 
+
+// MARK: -
+
+struct Models {
+    var graph: Graph
+    var manifests: [AbsolutePath: ProjectDescription.Project]
+}
 

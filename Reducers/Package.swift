@@ -30,7 +30,12 @@ let package = Package(
         // A demo of consumer of the libraries
         .target(
             name: "ClientDemo",
-            dependencies: ["TuistModels", "TuistCore", "TuistGenerator"]),
+            dependencies: [
+                "TuistModels",
+                "TuistCore",
+                "TuistGenerator",
+                "ProjectDescription"
+        ]),
 
         // Tuist Models
         // - Plain old data structs to model Projects

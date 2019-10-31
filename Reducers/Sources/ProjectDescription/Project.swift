@@ -1,11 +1,17 @@
 
+public enum InfoPlist: Equatable {
+    case file(path: String)
+    case `default`
+}
+
 public struct Project {
-    var name: String
-    var target: [Target]
+    public var name: String
+    public var targets: [Target]
     // ...
 }
 
 public struct Target {
-    var name: String
-    var sources: [String] // Accepts glob patterns
+    public var name: String
+    public var infoPlist: InfoPlist
+    public var sources: [String] // Accepts glob patterns
 }

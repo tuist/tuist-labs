@@ -19,6 +19,7 @@ public struct Project: Equatable {
 
 public struct Target: Equatable {
     public var name: String
+    public var infoPlist: AbsolutePath? = nil
     public var sources: [AbsolutePath] = []
     // ...
     public var buildPhases: [BuildPhase] = []
