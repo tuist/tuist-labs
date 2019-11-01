@@ -18,5 +18,42 @@ let package = Package(
         .testTarget(
             name: "PipelinesTests",
             dependencies: ["Pipelines"]),
+        
+        // Public Manifests API
+        .target(
+            name: "ProjectDescription",
+            dependencies: []),
+        
+        // Tuist specific logic
+        .target(
+            name: "TuistKit",
+            dependencies: [
+                "TuistSupport",
+                "ProjectDescription"
+        ]),
+        
+        // Model Transformers
+        .target(
+            name: "TuistTransformers",
+            dependencies: []),
+        
+        // XcodeProj generator
+        // Graph > XcodeProj models
+        .target(
+            name: "TuistXcodeProjGenerator",
+            dependencies: []),
+        
+        // Shared models (e.g. Graph)
+        .target(
+            name: "TuistShared",
+            dependencies: []),
+        .testTarget(
+            name: "TuistSharedTests",
+            dependencies: ["TuistShared", "TuistSupport"]),
+        
+        // Utilities (e.g. FileHandler / System)
+        .target(
+            name: "TuistSupport",
+            dependencies: []),
     ]
 )
