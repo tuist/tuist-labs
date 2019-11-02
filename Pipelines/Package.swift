@@ -29,7 +29,8 @@ let package = Package(
             name: "TuistKit",
             dependencies: [
                 "TuistSupport",
-                "ProjectDescription"
+                "ProjectDescription",
+                "TuistXcodeProjGenerator"
         ]),
         
         // Model Transformers
