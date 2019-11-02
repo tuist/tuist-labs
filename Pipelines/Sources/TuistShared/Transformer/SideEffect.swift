@@ -2,10 +2,26 @@
 import Foundation
 import TuistSupport
 
-public enum SideEffect: Equatable {
+public struct SideEffect: Equatable {
+    public var action: Action
+    public var category: Category
     
-    case createFile(File)
-    case command(Command)
+    public init(action: SideEffect.Action, category: SideEffect.Category) {
+        self.action = action
+        self.category = category
+    }
+    
+    // MARK: -
+    
+    public enum Action: Equatable {
+        case createFile(File)
+        case command(Command)
+    }
+    
+    public enum Category: Equatable {
+        case preGeneration
+        case postGeneration
+    }
     
     public struct File: Equatable {
         public var path: AbsolutePath

@@ -163,11 +163,10 @@ class OrderedGraphTransformerTests: XCTestCase {
             ])
         ])
         
+        let expectedFile = SideEffect.File(path: AbsolutePath("/project/Generated/Constants.swift"),
+                                           content: transformer.constantsFileData())
         XCTAssertEqual(result.sideEffects, [
-            .createFile(
-                .init(path: AbsolutePath("/project/Generated/Constants.swift"),
-                      content: transformer.constantsFileData())
-            )
+            SideEffect(action: .createFile(expectedFile), category: .preGeneration)
         ])
     }
     
@@ -222,7 +221,8 @@ class OrderedGraphTransformerTests: XCTestCase {
             updated.sources.append(filePath)
             return Transformation(model: updated,
                                   sideEffects: [
-                                    .createFile(file)
+                                    SideEffect(action: .createFile(file),
+                                               category: .preGeneration)
             ])
         }
         

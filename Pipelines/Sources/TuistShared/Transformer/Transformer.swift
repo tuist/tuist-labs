@@ -2,8 +2,8 @@
 import Foundation
 
 public struct Transformation<Model> {
-    var model: Model
-    var sideEffects: [SideEffect]
+    public var model: Model
+    public var sideEffects: [SideEffect]
     public init(model: Model, sideEffects: [SideEffect] = []) {
         self.model = model
         self.sideEffects = sideEffects

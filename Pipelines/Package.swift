@@ -47,7 +47,9 @@ let package = Package(
         // Shared models (e.g. Graph)
         .target(
             name: "TuistShared",
-            dependencies: []),
+            dependencies: [
+                "TuistSupport"
+        ]),
         .testTarget(
             name: "TuistSharedTests",
             dependencies: ["TuistShared", "TuistSupport"]),
