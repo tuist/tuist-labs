@@ -170,7 +170,41 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
+    func test_transform_targetActions() {
+        // Given
+        let graph = createGraph(projects: [
+            Project(path: AbsolutePath("/project"),
+                    name: "A",
+                    targets: [
+                        Target(name: "A_T1"),
+                        Target(name: "B_T1"),
+            ])
+        ])
+        
+        subject.register(transformer: targetActionTransformer())
+        
+        // When
+        let result = subject.transform(model: graph)
+        
+        // Then
+        let targets = result.model.projects.flatMap { $0.targets }
+        XCTAssertEqual(targets.map { "Action_\($0.name)" },
+                       targets.flatMap { $0.actions.map { $0.name } })
+    }
+    
     // MARK: - Helpers
+    
+    private func targetActionTransformer() -> TargetTransforming {
+        class Transformer: TargetTransforming {
+            func transform(model: Target) -> Transformation<Target> {
+                var updated = model
+                updated.actions.append(TargetAction(name: "Action_\(model.name)", order: .pre))
+                return Transformation(model: updated)
+            }
+        }
+        
+        return Transformer()
+    }
     
     private func projectNameTransformer() -> ProjectTransforming {
         class Transformer: ProjectTransforming {

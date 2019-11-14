@@ -15,14 +15,17 @@ public struct Target {
     public var platform: Platform
     public var product: Product
     public var sources: [String]
+    public var actions: [TargetAction]
     
     public init(name: String,
                 platform: Platform,
                 product: Product,
-                sources: [String] = []) {
+                sources: [String] = [],
+                actions: [TargetAction] = []) {
         self.name = name
         self.platform = platform
         self.product = product
         self.sources = sources
+        self.actions = actions
     }
 }

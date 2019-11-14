@@ -96,11 +96,11 @@ public final class Generator {
         return graph
     }
     
-    private func write(_ workspaceDescriptor) throws {
+    private func write(_ workspaceDescriptor: WorkspaceDescriptor) throws {
         // ...
     }
-    
-    private func write(_ projectDescriptor) throws {
+
+    private func write(_ projectDescriptor: ProjectDescriptor) throws {
         // ...
     }
 }
