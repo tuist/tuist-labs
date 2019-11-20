@@ -42,7 +42,7 @@ let package = Package(
         // Graph > XcodeProj models
         .target(
             name: "TuistXcodeProjGenerator",
-            dependencies: []),
+            dependencies: ["TuistShared"]),
         
         // Shared models (e.g. Graph)
         .target(
