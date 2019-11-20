@@ -1,4 +1,4 @@
-public class OrdereredGraphLinter: GraphLinting {
+public class OrderedGraphLinter: GraphLinting {
     private var linters: [GraphLinting] = []
     
     public init() {
@@ -15,9 +15,9 @@ public class OrdereredGraphLinter: GraphLinting {
     }
     
     public func register(linter: TargetLinting) {
-//        let projectTransformer = TargetProjectTransformer(transformer: transformer)
-//        let graphTransformer = ProjectGraphTransformer(transformer: projectTransformer)
-//        transformers.append(graphTransformer)
+        let projectLinter = TargetProjectLinter(linter: linter)
+        let graphLinter = ProjectGraphLinter(linter: projectLinter)
+        linters.append(graphLinter)
     }
 
     public func lint(model: Graph) -> [LintingIssue] {
@@ -36,21 +36,19 @@ private class ProjectGraphLinter: GraphLinting {
     }
 }
 
-
-public protocol GraphLinting {
-    func lint(model: Graph) -> [LintingIssue]
-}
-
-public protocol ProjectLinting {
-    func lint(model: Project) -> [LintingIssue]
-}
-
-public protocol TargetLinting {
-    func lint(model: Target) -> [LintingIssue]
+private class TargetProjectLinter: ProjectLinting {    
+    let linter: TargetLinting
+    init(linter: TargetLinting) {
+        self.linter = linter
+    }
+    
+    func lint(model: Project) -> [LintingIssue] {
+        model.targets.flatMap(linter.lint)
+    }
 }
 
 /// Linting issue.
-public struct LintingIssue: CustomStringConvertible {
+public struct LintingIssue: CustomStringConvertible, Equatable {
     public enum Severity: String {
         case warning
         case error
@@ -63,5 +61,12 @@ public struct LintingIssue: CustomStringConvertible {
     }
     public var description: String {
         return reason
+    }
+    
+    // MARK: - Equatable
+
+    public static func == (lhs: LintingIssue, rhs: LintingIssue) -> Bool {
+        return lhs.severity == rhs.severity &&
+            lhs.reason == rhs.reason
     }
 }

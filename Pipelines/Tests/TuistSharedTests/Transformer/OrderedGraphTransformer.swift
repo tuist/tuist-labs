@@ -214,6 +214,17 @@ class OrderedGraphTransformerTests: XCTestCase {
     
     // MARK: - Helpers
     
+    private func generateFilesTransformer() -> TargetTransforming {
+        class Transformer: TargetTransforming {
+            func transform(model: Target) -> Transformation<Target> {
+                var updated = model
+                fatalError()
+            }
+        }
+        
+        fatalError()
+    }
+    
     private func targetActionTransformer() -> TargetTransforming {
         class Transformer: TargetTransforming {
             func transform(model: Target) -> Transformation<Target> {
