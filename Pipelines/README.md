@@ -154,8 +154,8 @@ Transformers:
    - Or selectively register transformers based on one tuist config
 
 Linters:
-- [ ] Existing `TuistGenerator` linters
-- [ ] Custom linter
+- [x] Existing `TuistGenerator` linters
+- [x] Custom linter
 - [ ] Manifest vs model linters
 
 Generator descriptors:
