@@ -21,6 +21,10 @@ public enum InfoPlist: Equatable {
         }
     }
     
+    // Is there a way we can make the `.dictionary` case only appear
+    // in the public manifest `ProjectDescription`?
+    //
+    // Such that within the models we only have `infoPlist: AbsolutePath?`
     case dictionary([String: Value])
     case file(path: AbsolutePath)
     
