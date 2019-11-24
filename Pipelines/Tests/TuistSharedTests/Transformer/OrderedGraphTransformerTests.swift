@@ -9,7 +9,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject = OrderedGraphTransformer()
     }
     
-    func test_transform_projectTransformer() {
+    func test_transform_projectTransformer() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -22,7 +22,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: projectNameTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         XCTAssertEqual(result.model.projects, [
@@ -34,7 +34,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
-    func test_transform_targetTransformer() {
+    func test_transform_targetTransformer() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -47,7 +47,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: targetNameTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         XCTAssertEqual(result.model.projects, [
@@ -59,7 +59,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
-    func test_transform_projectAndTargetTransformer() {
+    func test_transform_projectAndTargetTransformer() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -73,7 +73,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: projectNameTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         XCTAssertEqual(result.model.projects, [
@@ -85,7 +85,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
-    func test_transform_addTargetBeforeRename() {
+    func test_transform_addTargetBeforeRename() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -99,7 +99,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: targetNameTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         XCTAssertEqual(result.model.projects, [
@@ -112,7 +112,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
-    func test_transform_renameBeforeAddingTargets() {
+    func test_transform_renameBeforeAddingTargets() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -126,7 +126,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: customTargetAddingTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         XCTAssertEqual(result.model.projects, [
@@ -139,7 +139,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
-    func test_transform_sideEffects() {
+    func test_transform_sideEffects() throws {
         // Given
         let transformer = ConstantsSourceGeneratorTransformer()
         let graph = createGraph(projects: [
@@ -153,7 +153,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: transformer)
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         XCTAssertEqual(result.model.projects.flatMap { $0.targets }, [
@@ -170,7 +170,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         ])
     }
     
-    func test_transform_targetActions() {
+    func test_transform_targetActions() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -184,7 +184,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: targetActionTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         let targets = result.model.projects.flatMap { $0.targets }
@@ -192,7 +192,7 @@ class OrderedGraphTransformerTests: XCTestCase {
                        targets.flatMap { $0.actions.map { $0.name } })
     }
     
-    func test_transform_infoPlist() {
+    func test_transform_infoPlist() throws {
         // Given
         let graph = createGraph(projects: [
             Project(path: AbsolutePath("/project"),
@@ -205,7 +205,7 @@ class OrderedGraphTransformerTests: XCTestCase {
         subject.register(transformer: infoPlistAddingTransformer())
         
         // When
-        let result = subject.transform(model: graph)
+        let result = try subject.transform(model: graph)
         
         // Then
         let targets = result.model.projects.flatMap { $0.targets }
@@ -217,7 +217,7 @@ class OrderedGraphTransformerTests: XCTestCase {
     private func generateFilesTransformer() -> TargetTransforming {
         class Transformer: TargetTransforming {
             func transform(model: Target) -> Transformation<Target> {
-                var updated = model
+//                var updated = model
                 fatalError()
             }
         }
