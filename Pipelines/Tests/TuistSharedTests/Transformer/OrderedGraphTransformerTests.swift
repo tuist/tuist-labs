@@ -192,26 +192,6 @@ class OrderedGraphTransformerTests: XCTestCase {
                        targets.flatMap { $0.actions.map { $0.name } })
     }
     
-    func test_transform_infoPlist() throws {
-        // Given
-        let graph = createGraph(projects: [
-            Project(path: AbsolutePath("/project"),
-                    name: "A",
-                    targets: [
-                        Target(name: "A_T")
-            ])
-        ])
-        
-        subject.register(transformer: infoPlistAddingTransformer())
-        
-        // When
-        let result = try subject.transform(model: graph)
-        
-        // Then
-        let targets = result.model.projects.flatMap { $0.targets }
-        XCTAssertEqual(targets.first?.infoPlist, .file(path: AbsolutePath("/project/Info.plist")))
-    }
-    
     // MARK: - Helpers
     
     private func generateFilesTransformer() -> TargetTransforming {
@@ -268,28 +248,6 @@ class OrderedGraphTransformerTests: XCTestCase {
                 let customTarget = Target(name: "CustomTarget")
                 updated.targets.append(customTarget)
                 return Transformation(model: updated)
-            }
-        }
-        
-        return Transformer()
-    }
-    
-    private func infoPlistAddingTransformer() -> TargetTransforming {
-        class Transformer: TargetTransforming {
-            func transform(model: Target) -> Transformation<Target> {
-                var updated = model
-                
-                // Make transformation throwing? :thinking:
-                let data = try! PropertyListSerialization.data(fromPropertyList: ["LSRequiresIPhoneOS": true],
-                                                               format: .xml,
-                                                               options: 0)
-                
-                let infoPlistPath = AbsolutePath("/project/Info.plist")
-                let infoPlistFile = SideEffect.File(path: infoPlistPath, content: data)
-                
-                updated.infoPlist = .file(path: infoPlistPath)
-                return Transformation(model: updated,
-                                      sideEffects: [SideEffect(action: .createFile(infoPlistFile), category: .preGeneration)])
             }
         }
         

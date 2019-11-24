@@ -36,7 +36,10 @@ let package = Package(
         // Model Transformers
         .target(
             name: "TuistTransformers",
-            dependencies: []),
+            dependencies: ["TuistShared"]),
+        .testTarget(
+            name: "TuistTransformersTests",
+            dependencies: ["TuistTransformers"]),
         
         // XcodeProj generator
         // Graph > XcodeProj models
