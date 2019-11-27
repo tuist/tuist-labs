@@ -35,7 +35,7 @@ public final class Generator {
         let transformer = loadTransformers()
         
         // Run transformers
-        let transformation = transformer.transform(model: models.graph)
+        let transformation = try transformer.transform(model: models.graph)
         models.graph = transformation.model
         
         // Run pre-generation side effects
@@ -59,7 +59,7 @@ public final class Generator {
                                             .sideEffects
                                             .filter { $0.category == .postGeneration }
                                             .map { $0.action }
-        try sideEffectActionHandler.handle(sideEffects: preGenerationSideEffects)
+        try sideEffectActionHandler.handle(sideEffects: postGenerationSideEffects)
     }
     
     // MARK: -

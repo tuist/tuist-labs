@@ -24,10 +24,10 @@ public class OrderedGraphTransformer: GraphTransforming {
         transformers.append(graphTransformer)
     }
 
-    public func transform(model: Graph) -> Transformation<Graph> {
+    public func transform(model: Graph) throws -> Transformation<Graph> {
         let initial = Transformation(model: model, sideEffects: [])
-        return transformers.reduce(initial) {
-            let transformation = $1.transform(model: $0.model)
+        return try transformers.reduce(initial) {
+            let transformation = try $1.transform(model: $0.model)
             return $0.replacing(model: transformation.model)
                      .adding(sideEffects: transformation.sideEffects)
         }
@@ -39,10 +39,10 @@ private class ProjectGraphTransformer: GraphTransforming {
     init(transformer: ProjectTransforming) {
         self.transformer = transformer
     }
-    func transform(model: Graph) -> Transformation<Graph> {
+    func transform(model: Graph) throws -> Transformation<Graph> {
         var updated = model
-        let transformations = updated.projects.map {
-            transformer.transform(model: $0)
+        let transformations = try updated.projects.map {
+            try transformer.transform(model: $0)
         }
         updated.projects = transformations.map { $0.model }
         return Transformation(model: updated,
@@ -56,10 +56,10 @@ private class TargetProjectTransformer: ProjectTransforming {
         self.transformer
             = transformer
     }
-    func transform(model: Project) -> Transformation<Project> {
+    func transform(model: Project) throws -> Transformation<Project> {
         var updated = model
-        let transformations = updated.targets.map {
-            transformer.transform(model: $0)
+        let transformations = try updated.targets.map {
+            try transformer.transform(model: $0)
         }
         updated.targets = transformations.map { $0.model }
         return Transformation(model: updated,

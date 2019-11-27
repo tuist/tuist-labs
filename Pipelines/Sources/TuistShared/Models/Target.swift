@@ -15,6 +15,7 @@ public struct Target: Equatable {
                 actions: [TargetAction] = [],
                 dependencies: [Dependency] = []) {
         self.name = name
+        self.infoPlist = infoPlist
         self.sources = sources
         self.actions = actions
         self.dependencies = dependencies

@@ -22,13 +22,13 @@ extension Transformation {
 }
 
 public protocol GraphTransforming {
-    func transform(model: Graph) -> Transformation<Graph>
+    func transform(model: Graph) throws -> Transformation<Graph>
 }
 
 public protocol ProjectTransforming {
-    func transform(model: Project) -> Transformation<Project>
+    func transform(model: Project) throws -> Transformation<Project>
 }
 
 public protocol TargetTransforming {
-    func transform(model: Target) -> Transformation<Target>
+    func transform(model: Target) throws -> Transformation<Target>
 }
