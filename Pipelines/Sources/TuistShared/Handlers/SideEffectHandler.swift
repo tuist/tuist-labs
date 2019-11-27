@@ -21,6 +21,8 @@ class SideEffectActionHandler {
     }
     
     private func handle(sideEffect: SideEffect.Command) {
-        // ...
+        if sideEffect.arguments == ["swiftgen"] {
+            
+        }
     }
 }

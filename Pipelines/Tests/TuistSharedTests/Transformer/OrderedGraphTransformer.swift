@@ -217,12 +217,13 @@ class OrderedGraphTransformerTests: XCTestCase {
     private func generateFilesTransformer() -> TargetTransforming {
         class Transformer: TargetTransforming {
             func transform(model: Target) -> Transformation<Target> {
-                var updated = model
-                fatalError()
+                let command = SideEffect.Command(arguments: ["swiftgen"])
+                return Transformation(model: model, sideEffects: [SideEffect(action: .command(command),
+                                                                             category: .preGeneration)])
             }
         }
         
-        fatalError()
+        return Transformer()
     }
     
     private func targetActionTransformer() -> TargetTransforming {
