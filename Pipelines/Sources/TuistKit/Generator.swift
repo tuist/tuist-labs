@@ -21,9 +21,12 @@ public final class Generator {
     }
     
     public func generate(at path: AbsolutePath) throws {
+        // Load transformers
+        let transformer = loadTransformers()
         
         // Load models
-        var models = loadModels(at: path)
+        let modelsTransformation = try loadModels(at: path)
+        var models = modelsTransformation.model
         
         // Load linters
         // TODO
@@ -31,11 +34,10 @@ public final class Generator {
         // Run Linters
         // TODO
         
-        // Load transformers
-        let transformer = loadTransformers()
-        
         // Run transformers
-        let transformation = try transformer.transform(model: models.graph)
+        var transformation = try transformer.transform(model: models.graph)
+        // Combining transformation from manifest > model conversion and graph transformation
+        transformation.sideEffects = modelsTransformation.sideEffects + transformation.sideEffects
         models.graph = transformation.model
         
         // Run pre-generation side effects
@@ -64,9 +66,16 @@ public final class Generator {
     
     // MARK: -
     
-    private func loadModels(at path: AbsolutePath) -> Models {
+    private func loadModels(at path: AbsolutePath) throws -> Transformation<Models> {
         // Load all manifests
-        let manifests = manifestLoader.load(at: path)
+        var manifests = manifestLoader.load(at: path)
+        
+        // Load manifest transfomer
+        let transformer = OrderedManifestsTransformer()
+        transformer.register(transformer: InfoPlistTransformer())
+        
+        let transformation = try transformer.transform(model: manifests)
+        manifests = transformation.model
         
         // Convert to models
         let models = convert(manifests: manifests)
@@ -74,7 +83,7 @@ public final class Generator {
         // Build Graph
         let graph = graphBuilder.build(workspace: nil, projects: models)
         
-        return Models(graph: graph, manifests: manifests)
+        return Transformation(model: Models(graph: graph, manifests: manifests), sideEffects: transformation.sideEffects)
     }
     
     private func convert(manifests: Manifests) -> [Project] {
@@ -104,5 +113,3 @@ public final class Generator {
         // ...
     }
 }
-
-

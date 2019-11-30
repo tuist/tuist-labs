@@ -10,7 +10,7 @@ public struct Transformation<Model> {
     }
 }
 
-extension Transformation {
+public extension Transformation {
     func replacing(model: Model) -> Transformation<Model> {
         return Transformation(model: model, sideEffects: sideEffects)
     }

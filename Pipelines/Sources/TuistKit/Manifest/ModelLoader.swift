@@ -3,12 +3,12 @@ import ProjectDescription
 import TuistShared
 import TuistSupport
 
-struct ProjectManifest {
+public struct ProjectManifest {
     var path: AbsolutePath
     var manifest: ProjectDescription.Project
 }
 
-struct Manifests {
+public struct Manifests {
     var projects: [ProjectManifest]
 }
 
